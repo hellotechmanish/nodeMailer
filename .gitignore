@@ -1,2 +1,4 @@
 # thisi is module i can not push on github
 node_modules/
+
+.env/
