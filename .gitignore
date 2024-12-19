@@ -1,4 +1,11 @@
-# thisi is module i can not push on github
+# Node modules
 node_modules/
 
-.env/
+# Environment variables
+.env
+
+# Logs
+*.log
+
+# Other files to ignore
+.DS_Store

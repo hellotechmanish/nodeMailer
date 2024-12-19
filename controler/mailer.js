@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
 
+
 // Setup transport using Gmail SMTP details
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'mk772542@gmail.com',  // Your Gmail email address
-        pass: 'amij egjf tpzy omik'      // Your Gmail app password (generated from 2-Step Verification)
+        user: process.env.EMAIL_USER,  // Your Gmail email address
+        pass: process.env.EMAIL_PASS      // Your Gmail app password (generated from 2-Step Verification)
     }
 });
 
@@ -21,7 +22,7 @@ router.post('/', async (req, res) => {
     }
 
     const mailOptions = {
-        from: 'mk772542@gmail.com',  // Your Gmail address
+        from: process.env.EMAIL_USER,  // Your Gmail address
         to,  // Recipient email address from the request
         subject,  // Subject of the email
         text,  // Body of the email
