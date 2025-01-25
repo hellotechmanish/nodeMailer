@@ -1,14 +1,29 @@
 const express = require('express');
-const app = express();
-const mailer = require('./controler/mailer');
+const path = require('path');
+const dotenv = require('dotenv');
+const mailer = require('./controler/mailer'); // Path to mailer.js
 
-// Middleware to parse JSON requests
+// Initialize dotenv to read .env variables
+dotenv.config();
+
+const app = express();
+
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Serve static files (for CSS, JS, images, etc.)
+app.use(express.static('public'));
+
+// Middleware to parse form data
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 
 app.use('/mail', mailer);
 
 app.get('/', (req, res) => {
-    res.send('Hello,manish');
+    res.render('form');
 });
 
 

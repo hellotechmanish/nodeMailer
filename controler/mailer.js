@@ -1,20 +1,23 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
-
+require('dotenv').config();
 
 // Setup transport using Gmail SMTP details
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
         user: process.env.EMAIL_USER,  // Your Gmail email address
-        pass: process.env.EMAIL_PASS      // Your Gmail app password (generated from 2-Step Verification)
+        pass: process.env.EMAIL_PASS,  // Your Gmail App Password (generated from 2-Step Verification)
     }
 });
 
-// Define POST route to handle email sending
+
 router.post('/', async (req, res) => {
-    console.log(req.body);
+    console.log("Request Body:", req.body); // Add this line for debugging
+
     const { to, subject, text } = req.body;
 
     if (!to || !subject || !text) {
@@ -22,16 +25,16 @@ router.post('/', async (req, res) => {
     }
 
     const mailOptions = {
-        from: process.env.EMAIL_USER,  // Your Gmail address
-        to,  // Recipient email address from the request
-        subject,  // Subject of the email
-        text,  // Body of the email
+        from: process.env.EMAIL_USER,
+        to,
+        subject,
+        text,
     };
 
     try {
         const info = await transporter.sendMail(mailOptions);
         res.status(200).json({
-            status: 'successfull send Email',
+            status: 'success',
             message: `Email sent: ${info.response}`
         });
     } catch (error) {
